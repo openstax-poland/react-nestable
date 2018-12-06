@@ -37,6 +37,7 @@ class Nestable extends Component {
   }
 
   static propTypes = {
+    isDisabled: PropTypes.bool,
     items: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.any.isRequired
@@ -50,6 +51,7 @@ class Nestable extends Component {
       PropTypes.string
     ]),
     childrenProp: PropTypes.string,
+    className: PropTypes.string,
     renderItem: PropTypes.func,
     renderCollapseIcon: PropTypes.func,
     handler: PropTypes.node,
@@ -139,12 +141,14 @@ class Nestable extends Component {
   // Methods
   // ––––––––––––––––––––––––––––––––––––
   startTrackMouse = () => {
+    if (isDisabled) return
     document.addEventListener('mousemove', this.onMouseMove);
     document.addEventListener('mouseup', this.onDragEnd);
     document.addEventListener('keydown', this.onKeyDown);
   };
 
   stopTrackMouse = () => {
+    if (isDisabled) return
     document.removeEventListener('mousemove', this.onMouseMove);
     document.removeEventListener('mouseup', this.onDragEnd);
     document.removeEventListener('keydown', this.onKeyDown);
@@ -152,6 +156,7 @@ class Nestable extends Component {
   };
 
   moveItem({ dragItem, pathFrom, pathTo }, extraProps = {}) {
+    if (isDisabled) return
     const { childrenProp } = this.props;
     let { items } = this.state;
 
@@ -411,6 +416,7 @@ class Nestable extends Component {
   // Click handlers or event handlers
   // ––––––––––––––––––––––––––––––––––––
   onDragStart = (e, item) => {
+    if (isDisabled) return
     if (e) {
       e.preventDefault();
       e.stopPropagation();
@@ -428,6 +434,7 @@ class Nestable extends Component {
   };
 
   onDragEnd = (e, isCancel) => {
+    if (isDisabled) return
     e && e.preventDefault();
 
     this.stopTrackMouse();
@@ -439,6 +446,7 @@ class Nestable extends Component {
   };
 
   onMouseMove = (e) => {
+    if (isDisabled) return
     const { group, threshold } = this.props;
     const { dragItem } = this.state;
     const { clientX, clientY } = e;
@@ -490,6 +498,7 @@ class Nestable extends Component {
   };
 
   onMouseEnter = (e, item) => {
+    if (isDisabled) return
     if (e) {
       e.preventDefault();
       e.stopPropagation();
@@ -535,6 +544,7 @@ class Nestable extends Component {
   };
 
   onKeyDown = (e) => {
+    if (isDisabled) return
     if (e.which === 27) {
       // ESC
       this.onDragEnd(null, true);
@@ -545,6 +555,7 @@ class Nestable extends Component {
   // Render methods
   // ––––––––––––––––––––––––––––––––––––
   renderDragLayer() {
+    if (isDisabled) return
     const { group } = this.props;
     const { dragItem } = this.state;
     const el = document.querySelector('.nestable-' + group + ' .nestable-item-' + dragItem.id);
@@ -577,11 +588,11 @@ class Nestable extends Component {
 
   render() {
     const { items, dragItem } = this.state;
-    const { group } = this.props;
+    const { group, isDisabled } = this.props;
     const options = this.getItemOptions();
 
     return (
-      <div className={cn("nestable", "nestable-" + group, { 'is-drag-active': dragItem })}>
+      <div className={cn("nestable", "nestable-" + group, { 'is-drag-active': dragItem }, this.state.className, {'is-disabled': isDisabled})}>
         <ol className="nestable-list nestable-group">
           {items.map((item, i) => {
             return (
