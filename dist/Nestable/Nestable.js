@@ -81,12 +81,14 @@ var Nestable = function (_Component) {
     };
 
     _this.startTrackMouse = function () {
+      if (_this.props.isDisabled) return;
       document.addEventListener('mousemove', _this.onMouseMove);
       document.addEventListener('mouseup', _this.onDragEnd);
       document.addEventListener('keydown', _this.onKeyDown);
     };
 
     _this.stopTrackMouse = function () {
+      if (_this.props.isDisabled) return;
       document.removeEventListener('mousemove', _this.onMouseMove);
       document.removeEventListener('mouseup', _this.onDragEnd);
       document.removeEventListener('keydown', _this.onKeyDown);
@@ -115,6 +117,7 @@ var Nestable = function (_Component) {
     };
 
     _this.onDragStart = function (e, item) {
+      if (_this.props.isDisabled) return;
       if (e) {
         e.preventDefault();
         e.stopPropagation();
@@ -132,6 +135,7 @@ var Nestable = function (_Component) {
     };
 
     _this.onDragEnd = function (e, isCancel) {
+      if (_this.props.isDisabled) return;
       e && e.preventDefault();
 
       _this.stopTrackMouse();
@@ -141,6 +145,7 @@ var Nestable = function (_Component) {
     };
 
     _this.onMouseMove = function (e) {
+      if (_this.props.isDisabled) return;
       var _this$props2 = _this.props,
           group = _this$props2.group,
           threshold = _this$props2.threshold;
@@ -188,6 +193,7 @@ var Nestable = function (_Component) {
     };
 
     _this.onMouseEnter = function (e, item) {
+      if (_this.props.isDisabled) return;
       if (e) {
         e.preventDefault();
         e.stopPropagation();
@@ -237,6 +243,7 @@ var Nestable = function (_Component) {
     };
 
     _this.onKeyDown = function (e) {
+      if (_this.props.isDisabled) return;
       if (e.which === 27) {
         // ESC
         _this.onDragEnd(null, true);
@@ -319,6 +326,8 @@ var Nestable = function (_Component) {
           pathFrom = _ref.pathFrom,
           pathTo = _ref.pathTo;
       var extraProps = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+      if (this.props.isDisabled) return;
       var childrenProp = this.props.childrenProp;
       var items = this.state.items;
 
@@ -561,6 +570,7 @@ var Nestable = function (_Component) {
     key: 'getItemOptions',
     value: function getItemOptions() {
       var _props5 = this.props,
+          isDisabled = _props5.isDisabled,
           renderItem = _props5.renderItem,
           renderCollapseIcon = _props5.renderCollapseIcon,
           handler = _props5.handler,
@@ -574,6 +584,7 @@ var Nestable = function (_Component) {
         renderItem: renderItem,
         renderCollapseIcon: renderCollapseIcon,
         handler: handler,
+        isDraggable: isDisabled ? false : true,
 
         onDragStart: this.onDragStart,
         onMouseEnter: this.onMouseEnter,
@@ -594,6 +605,7 @@ var Nestable = function (_Component) {
     // Render methods
     // ––––––––––––––––––––––––––––––––––––
     value: function renderDragLayer() {
+      if (this.props.isDisabled) return;
       var group = this.props.group;
       var dragItem = this.state.dragItem;
 
@@ -629,13 +641,15 @@ var Nestable = function (_Component) {
       var _state2 = this.state,
           items = _state2.items,
           dragItem = _state2.dragItem;
-      var group = this.props.group;
+      var _props6 = this.props,
+          group = _props6.group,
+          isDisabled = _props6.isDisabled;
 
       var options = this.getItemOptions();
 
       return _react2.default.createElement(
         'div',
-        { className: (0, _classnames2.default)("nestable", "nestable-" + group, { 'is-drag-active': dragItem }) },
+        { className: (0, _classnames2.default)("nestable", "nestable-" + group, { 'is-drag-active': dragItem }, this.props.className, { 'is-disabled': isDisabled }) },
         _react2.default.createElement(
           'ol',
           { className: 'nestable-list nestable-group' },
@@ -657,6 +671,7 @@ var Nestable = function (_Component) {
 }(_react.Component);
 
 Nestable.propTypes = {
+  isDisabled: _propTypes2.default.bool,
   items: _propTypes2.default.arrayOf(_propTypes2.default.shape({
     id: _propTypes2.default.any.isRequired
   })),
@@ -665,6 +680,7 @@ Nestable.propTypes = {
   collapsed: _propTypes2.default.bool,
   group: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string]),
   childrenProp: _propTypes2.default.string,
+  className: _propTypes2.default.string,
   renderItem: _propTypes2.default.func,
   renderCollapseIcon: _propTypes2.default.func,
   handler: _propTypes2.default.node,

@@ -60,7 +60,7 @@ class NestableItem extends Component {
       } else {
         handlerProps = {
           ...handlerProps,
-          draggable: true,
+          draggable: options.isDraggable,
           onDragStart: (e) => options.onDragStart(e, item)
         };
       }

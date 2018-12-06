@@ -96,7 +96,7 @@ var NestableItem = function (_Component) {
           });
         } else {
           handlerProps = _extends({}, handlerProps, {
-            draggable: true,
+            draggable: options.isDraggable,
             onDragStart: function onDragStart(e) {
               return options.onDragStart(e, item);
             }
