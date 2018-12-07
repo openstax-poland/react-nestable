@@ -255,7 +255,8 @@ var Nestable = function (_Component) {
       itemsOld: null, // snap copy in case of canceling drag
       dragItem: null,
       isDirty: false,
-      collapsedGroups: []
+      collapsedGroups: [],
+      realPathTo: []
     };
 
     _this.el = null;
@@ -335,6 +336,7 @@ var Nestable = function (_Component) {
       // so update next coordinates accordingly
 
       var realPathTo = this.getRealNextPath(pathFrom, pathTo);
+      this.setState({ realPathTo: realPathTo });
 
       var removePath = this.getSplicePath(pathFrom, {
         numToRemove: 1,
@@ -427,10 +429,11 @@ var Nestable = function (_Component) {
       var _state = this.state,
           items = _state.items,
           isDirty = _state.isDirty,
-          dragItem = _state.dragItem;
+          dragItem = _state.dragItem,
+          realPathTo = _state.realPathTo;
 
 
-      if (onMove && isDirty && !onMove(items, dragItem)) {
+      if (onMove && isDirty && !onMove(items, dragItem, realPathTo)) {
         this.dragRevert();
         return;
       }
@@ -441,7 +444,7 @@ var Nestable = function (_Component) {
         isDirty: false
       });
 
-      onChange && isDirty && onChange(items, dragItem);
+      onChange && isDirty && onChange(items, dragItem, realPathTo);
     }
   }, {
     key: 'dragRevert',

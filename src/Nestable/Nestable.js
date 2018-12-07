@@ -25,7 +25,8 @@ class Nestable extends Component {
       itemsOld: null, // snap copy in case of canceling drag
       dragItem: null,
       isDirty: false,
-      collapsedGroups: []
+      collapsedGroups: [],
+      realPathTo: [],
     };
 
     this.el = null;
@@ -163,6 +164,7 @@ class Nestable extends Component {
     // the remove action might affect the next position,
     // so update next coordinates accordingly
     const realPathTo = this.getRealNextPath(pathFrom, pathTo);
+    this.setState({realPathTo})
 
 
     const removePath = this.getSplicePath(pathFrom, {
@@ -245,10 +247,10 @@ class Nestable extends Component {
 
   dragApply() {
     const { onMove, onChange } = this.props;
-    const { items, isDirty, dragItem } = this.state;
+    const { items, isDirty, dragItem, realPathTo } = this.state;
 
 
-    if (onMove && isDirty && !onMove(items, dragItem)) {
+    if (onMove && isDirty && !onMove(items, dragItem, realPathTo)) {
       this.dragRevert();
       return;
     }
@@ -260,7 +262,7 @@ class Nestable extends Component {
       isDirty: false
     });
 
-    onChange && isDirty && onChange(items, dragItem);
+    onChange && isDirty && onChange(items, dragItem, realPathTo);
   }
 
   dragRevert() {

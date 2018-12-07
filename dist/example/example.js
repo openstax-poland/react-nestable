@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "b46a6e9621061cd74a3b"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "0937c2e87bfc0ba795e1"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -11375,7 +11375,8 @@
 	      itemsOld: null, // snap copy in case of canceling drag
 	      dragItem: null,
 	      isDirty: false,
-	      collapsedGroups: []
+	      collapsedGroups: [],
+	      realPathTo: []
 	    };
 	
 	    _this.el = null;
@@ -11455,6 +11456,7 @@
 	      // so update next coordinates accordingly
 	
 	      var realPathTo = this.getRealNextPath(pathFrom, pathTo);
+	      this.setState({ realPathTo: realPathTo });
 	
 	      var removePath = this.getSplicePath(pathFrom, {
 	        numToRemove: 1,
@@ -11547,10 +11549,11 @@
 	      var _state = this.state,
 	          items = _state.items,
 	          isDirty = _state.isDirty,
-	          dragItem = _state.dragItem;
+	          dragItem = _state.dragItem,
+	          realPathTo = _state.realPathTo;
 	
 	
-	      if (onMove && isDirty && !onMove(items, dragItem)) {
+	      if (onMove && isDirty && !onMove(items, dragItem, realPathTo)) {
 	        this.dragRevert();
 	        return;
 	      }
@@ -11561,7 +11564,7 @@
 	        isDirty: false
 	      });
 	
-	      onChange && isDirty && onChange(items, dragItem);
+	      onChange && isDirty && onChange(items, dragItem, realPathTo);
 	    }
 	  }, {
 	    key: 'dragRevert',

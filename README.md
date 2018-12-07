@@ -60,8 +60,8 @@ const renderItem = ({ item }) => {
 | className | string | `undefined` | Optional class for main container. |
 | renderItem | function | `({ item, index }) => item.toString()` | Function for rendering every item. Has a single parameter with keys: `item` - item from your array, `index` - index of the item, `collapseIcon` - icon for items with children (allows you to collapse group), `handler` - component which you have passed via the same property, but covered with some additional events. |
 | renderCollapseIcon | function | `({ isCollapsed }) => <DefaultIcon />` | Function for rendering collapse icon. Has a single parameter with keys: `isCollapsed` - boolean, true if this group has children and collapsed. |
-| onMove | function | `() => { return true; }` | Callback which has two parameters: `items` - new array after position was changed, `item` - item which has been moved. This is called before a move is completed. Return true to finish the move, return false to cancel. |
-| onChange | function | `() => {}` | Callback which has two parameters: `items` - new array after position was changed, `item` - item which has been moved. This is called after a move is completed. |
+| onMove | function | `() => { return true; }` | Callback which has three parameters: `items` - new array after position was changed, `item` - item which has been moved, `realPathTo` - path to item after change. This is called before a move is completed. Return true to finish the move, return false to cancel. |
+| onChange | function | `() => {}` | Callback which has three parameters: `items` - new array after position was changed, `item` - item which has been moved, `realPathTo` - path to item after change. This is called after a move is completed. |
 
 #### Public methods
 
