@@ -45,6 +45,9 @@ class NestableItem extends Component {
         "nestable-item" + (isCopy ? '-copy' : '') + '-' + item.id,
         {
           'is-dragging': isDragging
+        },
+        {
+          'nestable-has-children': hasChildren
         }
       )
     };
@@ -90,8 +93,8 @@ class NestableItem extends Component {
           {renderItem({ item, collapseIcon, handler: Handler, index })}
         </div>
 
-        {hasChildren && !isCollapsed && (
-          <ol className="nestable-list">
+        {hasChildren && (
+          <ol className={cn('nestable-list', {'nestable-collapsed': isCollapsed})}>
             {item[childrenProp].map((item, i) => {
               return (
                 <NestableItem

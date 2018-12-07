@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "0937c2e87bfc0ba795e1"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "197d8c02856995cc8bf5"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -11916,6 +11916,8 @@
 	      var itemProps = {
 	        className: (0, _classnames2.default)("nestable-item" + (isCopy ? '-copy' : ''), "nestable-item" + (isCopy ? '-copy' : '') + '-' + item.id, {
 	          'is-dragging': isDragging
+	        }, {
+	          'nestable-has-children': hasChildren
 	        })
 	      };
 	
@@ -11965,9 +11967,9 @@
 	          _extends({ className: 'nestable-item-name' }, rowProps),
 	          renderItem({ item: item, collapseIcon: collapseIcon, handler: Handler, index: index })
 	        ),
-	        hasChildren && !isCollapsed && _react2.default.createElement(
+	        hasChildren && _react2.default.createElement(
 	          'ol',
-	          { className: 'nestable-list' },
+	          { className: (0, _classnames2.default)('nestable-list', { 'nestable-collapsed': isCollapsed }) },
 	          item[childrenProp].map(function (item, i) {
 	            return _react2.default.createElement(NestableItem, {
 	              key: i,
