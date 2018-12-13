@@ -41,7 +41,7 @@ class Nestable extends Component {
     isDisabled: PropTypes.bool,
     items: PropTypes.arrayOf(
       PropTypes.shape({
-        id: PropTypes.any.isRequired
+        number: PropTypes.any.isRequired
       })
     ),
     threshold: PropTypes.number,
@@ -133,7 +133,7 @@ class Nestable extends Component {
     } else if (isArray(itemIds)) {
       this.setState({
         collapsedGroups: getAllNonEmptyNodesIds(items, childrenProp)
-          .filter(id => (itemIds.indexOf(id) > -1) ^ collapsed)
+          .filter(number => (itemIds.indexOf(number) > -1) ^ collapsed)
       });
     }
   };
@@ -190,7 +190,7 @@ class Nestable extends Component {
 
   tryIncreaseDepth(dragItem) {
     const { maxDepth, childrenProp, collapsed } = this.props;
-    const pathFrom = this.getPathById(dragItem.id);
+    const pathFrom = this.getPathById(dragItem[this]);
     const itemIndex = pathFrom[pathFrom.length - 1];
     const newDepth = pathFrom.length + this.getItemDepth(dragItem);
 
@@ -220,7 +220,7 @@ class Nestable extends Component {
 
   tryDecreaseDepth(dragItem) {
     const { childrenProp, collapsed } = this.props;
-    const pathFrom = this.getPathById(dragItem.id);
+    const pathFrom = this.getPathById(dragItem.number);
     const itemIndex = pathFrom[pathFrom.length - 1];
 
     // has parent
@@ -279,15 +279,15 @@ class Nestable extends Component {
   // ––––––––––––––––––––––––––––––––––––
   // Getter methods
   // ––––––––––––––––––––––––––––––––––––
-  getPathById(id, items = this.state.items) {
+  getPathById(number, items = this.state.items) {
     const { childrenProp } = this.props;
     let path = [];
 
     items.every((item, i) => {
-      if (item.id === id) {
+      if (item.number === number) {
         path.push(i);
       } else if (item[childrenProp]) {
-        const childrenPath = this.getPathById(id, item[childrenProp]);
+        const childrenPath = this.getPathById(number, item[childrenProp]);
 
         if (childrenPath.length) {
           path = path.concat(i).concat(childrenPath);
@@ -412,7 +412,7 @@ class Nestable extends Component {
     const { collapsed } = this.props;
     const { collapsedGroups } = this.state;
 
-    return !!((collapsedGroups.indexOf(item.id) > -1) ^ collapsed);
+    return !!((collapsedGroups.indexOf(item.number) > -1) ^ collapsed);
   };
 
   // ––––––––––––––––––––––––––––––––––––
@@ -509,10 +509,10 @@ class Nestable extends Component {
 
     const { collapsed, childrenProp } = this.props;
     const { dragItem } = this.state;
-    if (dragItem.id === item.id) return;
+    if (dragItem.number === item.number) return;
 
-    const pathFrom = this.getPathById(dragItem.id);
-    const pathTo = this.getPathById(item.id);
+    const pathFrom = this.getPathById(dragItem.number);
+    const pathTo = this.getPathById(item.number);
 
     // if collapsed by default
     // and move last (by count) child
@@ -535,8 +535,8 @@ class Nestable extends Component {
 
     const newState = {
       collapsedGroups: (isCollapsed ^ collapsed)
-        ? collapsedGroups.filter(id => id != item.id)
-        : collapsedGroups.concat(item.id)
+        ? collapsedGroups.filter(number => number != item.number)
+        : collapsedGroups.concat(item.number)
     };
 
     if (isGetter) {
@@ -561,7 +561,7 @@ class Nestable extends Component {
     if (this.props.isDisabled) return
     const { group } = this.props;
     const { dragItem } = this.state;
-    const el = document.querySelector('.nestable-' + group + ' .nestable-item-' + dragItem.id);
+    const el = document.querySelector('.nestable-' + group + ' .nestable-item-' + dragItem.number);
 
     let listStyles = {};
     if (el) {

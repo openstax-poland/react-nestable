@@ -50,7 +50,7 @@ const renderItem = ({ item }) => {
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
 | isDisabled | boolean | `false` | Optional. When set to `true` moving will be disabled and class `is-disabled` will be added. |
-| items | array | `[]` | Array of items. Every item must be of shape `{ id: @uniq }`. |
+| items | array | `[]` | Array of items. Every item must be of shape `{ number: @uniq }`. |
 | threshold | int | `30` | Amount of pixels which mouse should move horizontally before increasing/decreasing level (nesting) of current element. |
 | maxDepth | int | `10` | Maximum available level of nesting. |
 | collapsed | boolean | `false` | Are groups collapsed by default. |

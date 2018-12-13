@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "197d8c02856995cc8bf5"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "48dd6e90b244e181e66d"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -11193,8 +11193,8 @@
 	        });
 	      } else if ((0, _utils.isArray)(itemIds)) {
 	        _this.setState({
-	          collapsedGroups: (0, _utils.getAllNonEmptyNodesIds)(items, childrenProp).filter(function (id) {
-	            return itemIds.indexOf(id) > -1 ^ collapsed;
+	          collapsedGroups: (0, _utils.getAllNonEmptyNodesIds)(items, childrenProp).filter(function (number) {
+	            return itemIds.indexOf(number) > -1 ^ collapsed;
 	          })
 	        });
 	      }
@@ -11233,7 +11233,7 @@
 	      var collapsedGroups = _this.state.collapsedGroups;
 	
 	
-	      return !!(collapsedGroups.indexOf(item.id) > -1 ^ collapsed);
+	      return !!(collapsedGroups.indexOf(item.number) > -1 ^ collapsed);
 	    };
 	
 	    _this.onDragStart = function (e, item) {
@@ -11324,10 +11324,10 @@
 	          childrenProp = _this$props3.childrenProp;
 	      var dragItem = _this.state.dragItem;
 	
-	      if (dragItem.id === item.id) return;
+	      if (dragItem.number === item.number) return;
 	
-	      var pathFrom = _this.getPathById(dragItem.id);
-	      var pathTo = _this.getPathById(item.id);
+	      var pathFrom = _this.getPathById(dragItem.number);
+	      var pathTo = _this.getPathById(item.number);
 	
 	      // if collapsed by default
 	      // and move last (by count) child
@@ -11350,9 +11350,9 @@
 	      var isCollapsed = _this.isCollapsed(item);
 	
 	      var newState = {
-	        collapsedGroups: isCollapsed ^ collapsed ? collapsedGroups.filter(function (id) {
-	          return id != item.id;
-	        }) : collapsedGroups.concat(item.id)
+	        collapsedGroups: isCollapsed ^ collapsed ? collapsedGroups.filter(function (number) {
+	          return number != item.number;
+	        }) : collapsedGroups.concat(item.number)
 	      };
 	
 	      if (isGetter) {
@@ -11485,7 +11485,7 @@
 	          childrenProp = _props2.childrenProp,
 	          collapsed = _props2.collapsed;
 	
-	      var pathFrom = this.getPathById(dragItem.id);
+	      var pathFrom = this.getPathById(dragItem[this]);
 	      var itemIndex = pathFrom[pathFrom.length - 1];
 	      var newDepth = pathFrom.length + this.getItemDepth(dragItem);
 	
@@ -11516,7 +11516,7 @@
 	          childrenProp = _props3.childrenProp,
 	          collapsed = _props3.collapsed;
 	
-	      var pathFrom = this.getPathById(dragItem.id);
+	      var pathFrom = this.getPathById(dragItem.number);
 	      var itemIndex = pathFrom[pathFrom.length - 1];
 	
 	      // has parent
@@ -11586,7 +11586,7 @@
 	
 	  }, {
 	    key: 'getPathById',
-	    value: function getPathById(id) {
+	    value: function getPathById(number) {
 	      var _this2 = this;
 	
 	      var items = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.state.items;
@@ -11595,10 +11595,10 @@
 	      var path = [];
 	
 	      items.every(function (item, i) {
-	        if (item.id === id) {
+	        if (item.number === number) {
 	          path.push(i);
 	        } else if (item[childrenProp]) {
-	          var childrenPath = _this2.getPathById(id, item[childrenProp]);
+	          var childrenPath = _this2.getPathById(number, item[childrenProp]);
 	
 	          if (childrenPath.length) {
 	            path = path.concat(i).concat(childrenPath);
@@ -11732,7 +11732,7 @@
 	      var group = this.props.group;
 	      var dragItem = this.state.dragItem;
 	
-	      var el = document.querySelector('.nestable-' + group + ' .nestable-item-' + dragItem.id);
+	      var el = document.querySelector('.nestable-' + group + ' .nestable-item-' + dragItem.number);
 	
 	      var listStyles = {};
 	      if (el) {
@@ -11796,7 +11796,7 @@
 	Nestable.propTypes = {
 	  isDisabled: _propTypes2.default.bool,
 	  items: _propTypes2.default.arrayOf(_propTypes2.default.shape({
-	    id: _propTypes2.default.any.isRequired
+	    number: _propTypes2.default.any.isRequired
 	  })),
 	  threshold: _propTypes2.default.number,
 	  maxDepth: _propTypes2.default.number,
@@ -11908,16 +11908,18 @@
 	
 	      var isCollapsed = options.isCollapsed(item);
 	
-	      var isDragging = !isCopy && dragItem && dragItem.id === item.id;
+	      var isDragging = !isCopy && dragItem && dragItem.number === item.number;
 	      var hasChildren = item[childrenProp] && item[childrenProp].length > 0;
 	
 	      var Handler = void 0;
 	
 	      var itemProps = {
-	        className: (0, _classnames2.default)("nestable-item" + (isCopy ? '-copy' : ''), "nestable-item" + (isCopy ? '-copy' : '') + '-' + item.id, {
+	        className: (0, _classnames2.default)("nestable-item" + (isCopy ? '-copy' : ''), "nestable-item" + (isCopy ? '-copy' : '') + '-' + item.number, {
 	          'is-dragging': isDragging
 	        }, {
 	          'nestable-has-children': hasChildren
+	        }, {
+	          'nestable-children-collapsed': isCollapsed
 	        })
 	      };
 	
@@ -11989,7 +11991,7 @@
 	
 	NestableItem.propTypes = {
 	  item: _propTypes2.default.shape({
-	    id: _propTypes2.default.any.isRequired
+	    number: _propTypes2.default.any.isRequired
 	  }),
 	  isCopy: _propTypes2.default.bool,
 	  options: _propTypes2.default.object,

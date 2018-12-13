@@ -73,8 +73,8 @@ var Nestable = function (_Component) {
         });
       } else if ((0, _utils.isArray)(itemIds)) {
         _this.setState({
-          collapsedGroups: (0, _utils.getAllNonEmptyNodesIds)(items, childrenProp).filter(function (id) {
-            return itemIds.indexOf(id) > -1 ^ collapsed;
+          collapsedGroups: (0, _utils.getAllNonEmptyNodesIds)(items, childrenProp).filter(function (number) {
+            return itemIds.indexOf(number) > -1 ^ collapsed;
           })
         });
       }
@@ -113,7 +113,7 @@ var Nestable = function (_Component) {
       var collapsedGroups = _this.state.collapsedGroups;
 
 
-      return !!(collapsedGroups.indexOf(item.id) > -1 ^ collapsed);
+      return !!(collapsedGroups.indexOf(item.number) > -1 ^ collapsed);
     };
 
     _this.onDragStart = function (e, item) {
@@ -204,10 +204,10 @@ var Nestable = function (_Component) {
           childrenProp = _this$props3.childrenProp;
       var dragItem = _this.state.dragItem;
 
-      if (dragItem.id === item.id) return;
+      if (dragItem.number === item.number) return;
 
-      var pathFrom = _this.getPathById(dragItem.id);
-      var pathTo = _this.getPathById(item.id);
+      var pathFrom = _this.getPathById(dragItem.number);
+      var pathTo = _this.getPathById(item.number);
 
       // if collapsed by default
       // and move last (by count) child
@@ -230,9 +230,9 @@ var Nestable = function (_Component) {
       var isCollapsed = _this.isCollapsed(item);
 
       var newState = {
-        collapsedGroups: isCollapsed ^ collapsed ? collapsedGroups.filter(function (id) {
-          return id != item.id;
-        }) : collapsedGroups.concat(item.id)
+        collapsedGroups: isCollapsed ^ collapsed ? collapsedGroups.filter(function (number) {
+          return number != item.number;
+        }) : collapsedGroups.concat(item.number)
       };
 
       if (isGetter) {
@@ -365,7 +365,7 @@ var Nestable = function (_Component) {
           childrenProp = _props2.childrenProp,
           collapsed = _props2.collapsed;
 
-      var pathFrom = this.getPathById(dragItem.id);
+      var pathFrom = this.getPathById(dragItem[this]);
       var itemIndex = pathFrom[pathFrom.length - 1];
       var newDepth = pathFrom.length + this.getItemDepth(dragItem);
 
@@ -396,7 +396,7 @@ var Nestable = function (_Component) {
           childrenProp = _props3.childrenProp,
           collapsed = _props3.collapsed;
 
-      var pathFrom = this.getPathById(dragItem.id);
+      var pathFrom = this.getPathById(dragItem.number);
       var itemIndex = pathFrom[pathFrom.length - 1];
 
       // has parent
@@ -466,7 +466,7 @@ var Nestable = function (_Component) {
 
   }, {
     key: 'getPathById',
-    value: function getPathById(id) {
+    value: function getPathById(number) {
       var _this2 = this;
 
       var items = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.state.items;
@@ -475,10 +475,10 @@ var Nestable = function (_Component) {
       var path = [];
 
       items.every(function (item, i) {
-        if (item.id === id) {
+        if (item.number === number) {
           path.push(i);
         } else if (item[childrenProp]) {
-          var childrenPath = _this2.getPathById(id, item[childrenProp]);
+          var childrenPath = _this2.getPathById(number, item[childrenProp]);
 
           if (childrenPath.length) {
             path = path.concat(i).concat(childrenPath);
@@ -612,7 +612,7 @@ var Nestable = function (_Component) {
       var group = this.props.group;
       var dragItem = this.state.dragItem;
 
-      var el = document.querySelector('.nestable-' + group + ' .nestable-item-' + dragItem.id);
+      var el = document.querySelector('.nestable-' + group + ' .nestable-item-' + dragItem.number);
 
       var listStyles = {};
       if (el) {
@@ -676,7 +676,7 @@ var Nestable = function (_Component) {
 Nestable.propTypes = {
   isDisabled: _propTypes2.default.bool,
   items: _propTypes2.default.arrayOf(_propTypes2.default.shape({
-    id: _propTypes2.default.any.isRequired
+    number: _propTypes2.default.any.isRequired
   })),
   threshold: _propTypes2.default.number,
   maxDepth: _propTypes2.default.number,

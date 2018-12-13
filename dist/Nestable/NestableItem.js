@@ -74,16 +74,18 @@ var NestableItem = function (_Component) {
 
       var isCollapsed = options.isCollapsed(item);
 
-      var isDragging = !isCopy && dragItem && dragItem.id === item.id;
+      var isDragging = !isCopy && dragItem && dragItem.number === item.number;
       var hasChildren = item[childrenProp] && item[childrenProp].length > 0;
 
       var Handler = void 0;
 
       var itemProps = {
-        className: (0, _classnames2.default)("nestable-item" + (isCopy ? '-copy' : ''), "nestable-item" + (isCopy ? '-copy' : '') + '-' + item.id, {
+        className: (0, _classnames2.default)("nestable-item" + (isCopy ? '-copy' : ''), "nestable-item" + (isCopy ? '-copy' : '') + '-' + item.number, {
           'is-dragging': isDragging
         }, {
           'nestable-has-children': hasChildren
+        }, {
+          'nestable-children-collapsed': isCollapsed
         })
       };
 
@@ -155,7 +157,7 @@ var NestableItem = function (_Component) {
 
 NestableItem.propTypes = {
   item: _propTypes2.default.shape({
-    id: _propTypes2.default.any.isRequired
+    number: _propTypes2.default.any.isRequired
   }),
   isCopy: _propTypes2.default.bool,
   options: _propTypes2.default.object,
