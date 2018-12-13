@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "48dd6e90b244e181e66d"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "ba213efe9e0bf2c96f7c"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -11485,7 +11485,7 @@
 	          childrenProp = _props2.childrenProp,
 	          collapsed = _props2.collapsed;
 	
-	      var pathFrom = this.getPathById(dragItem[this]);
+	      var pathFrom = this.getPathById(dragItem.number);
 	      var itemIndex = pathFrom[pathFrom.length - 1];
 	      var newDepth = pathFrom.length + this.getItemDepth(dragItem);
 	

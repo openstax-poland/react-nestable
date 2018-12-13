@@ -190,7 +190,7 @@ class Nestable extends Component {
 
   tryIncreaseDepth(dragItem) {
     const { maxDepth, childrenProp, collapsed } = this.props;
-    const pathFrom = this.getPathById(dragItem[this]);
+    const pathFrom = this.getPathById(dragItem.number);
     const itemIndex = pathFrom[pathFrom.length - 1];
     const newDepth = pathFrom.length + this.getItemDepth(dragItem);
 

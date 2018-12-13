@@ -365,7 +365,7 @@ var Nestable = function (_Component) {
           childrenProp = _props2.childrenProp,
           collapsed = _props2.collapsed;
 
-      var pathFrom = this.getPathById(dragItem[this]);
+      var pathFrom = this.getPathById(dragItem.number);
       var itemIndex = pathFrom[pathFrom.length - 1];
       var newDepth = pathFrom.length + this.getItemDepth(dragItem);
 
