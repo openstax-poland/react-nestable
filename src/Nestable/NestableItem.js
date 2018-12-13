@@ -48,6 +48,9 @@ class NestableItem extends Component {
         },
         {
           'nestable-has-children': hasChildren
+        },
+        {
+          'nestable-children-collapsed': isCollapsed
         }
       )
     };
