@@ -127,13 +127,17 @@ var NestableItem = function (_Component) {
         renderCollapseIcon({ isCollapsed: isCollapsed })
       ) : null;
 
+      var renderedItem = renderItem({ item: item, collapseIcon: collapseIcon, handler: Handler, index: index });
+
+      if (!renderedItem) return null;
+
       return _react2.default.createElement(
         'li',
         itemProps,
         _react2.default.createElement(
           'div',
           _extends({ className: 'nestable-item-name' }, rowProps),
-          renderItem({ item: item, collapseIcon: collapseIcon, handler: Handler, index: index })
+          renderedItem
         ),
         hasChildren && _react2.default.createElement(
           'ol',

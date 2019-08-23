@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "39072ec57f68ef1e22e7"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "9ff247f361ebe5cfb002"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -11410,13 +11410,17 @@
 	        renderCollapseIcon({ isCollapsed: isCollapsed })
 	      ) : null;
 	
+	      var renderedItem = renderItem({ item: item, collapseIcon: collapseIcon, handler: Handler, index: index });
+	
+	      if (!renderedItem) return null;
+	
 	      return _react2.default.createElement(
 	        'li',
 	        itemProps,
 	        _react2.default.createElement(
 	          'div',
 	          _extends({ className: 'nestable-item-name' }, rowProps),
-	          renderItem({ item: item, collapseIcon: collapseIcon, handler: Handler, index: index })
+	          renderedItem
 	        ),
 	        hasChildren && _react2.default.createElement(
 	          'ol',

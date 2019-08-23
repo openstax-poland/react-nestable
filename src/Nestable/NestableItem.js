@@ -90,10 +90,14 @@ class NestableItem extends Component {
       )
       : null;
 
+    const renderedItem = renderItem({ item, collapseIcon, handler: Handler, index })
+
+    if (!renderedItem) return null
+
     return (
       <li {...itemProps}>
         <div className="nestable-item-name" {...rowProps}>
-          {renderItem({ item, collapseIcon, handler: Handler, index })}
+          {renderedItem}
         </div>
 
         {hasChildren && (
