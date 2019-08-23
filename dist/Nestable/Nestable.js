@@ -80,6 +80,19 @@ var Nestable = function (_Component) {
       }
     };
 
+    _this.toggleCollapseGroup = function (num) {
+      var collapsedGroups = _this.state.collapsedGroups;
+      var foundNum = collapsedGroups.findIndex(function (n) {
+        return n === num;
+      });
+      if (foundNum >= 0) {
+        collapsedGroups.splice(foundNum, 1);
+      } else {
+        collapsedGroups.push(num);
+      }
+      _this.setState({ collapsedGroups: collapsedGroups });
+    };
+
     _this.startTrackMouse = function () {
       if (_this.props.isDisabled) return;
       document.addEventListener('mousemove', _this.onMouseMove);

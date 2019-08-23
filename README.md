@@ -68,6 +68,7 @@ const renderItem = ({ item }) => {
 | Method | Accepts | Description |
 |--------|---------|-------------|
 | collapse | string or array | `"NONE"` - expand all groups; `"ALL"` - collapse all groups; `[]` - collapse all groups with ids from given array |
+| toggleCollapseGroup | number | toggle collapse for group with `item.number` |
 
 ## Todo
 

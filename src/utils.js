@@ -86,7 +86,7 @@ export const getAllNonEmptyNodesIds = (items, childrenProp) => {
     .filter(item => item[childrenProp].length)
     .map(item => {
       childrenIds = childrenIds.concat(getAllNonEmptyNodesIds(item[childrenProp], childrenProp));
-      return item.id;
+      return item.number;
     });
 
   return ids.concat(childrenIds);

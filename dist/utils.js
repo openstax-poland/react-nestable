@@ -91,7 +91,7 @@ var getAllNonEmptyNodesIds = exports.getAllNonEmptyNodesIds = function getAllNon
     return item[childrenProp].length;
   }).map(function (item) {
     childrenIds = childrenIds.concat(getAllNonEmptyNodesIds(item[childrenProp], childrenProp));
-    return item.id;
+    return item.number;
   });
 
   return ids.concat(childrenIds);

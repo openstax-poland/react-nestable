@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "9ff247f361ebe5cfb002"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "12b57bdec2096827682a"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -10649,6 +10649,19 @@
 	      }
 	    };
 	
+	    _this.toggleCollapseGroup = function (num) {
+	      var collapsedGroups = _this.state.collapsedGroups;
+	      var foundNum = collapsedGroups.findIndex(function (n) {
+	        return n === num;
+	      });
+	      if (foundNum >= 0) {
+	        collapsedGroups.splice(foundNum, 1);
+	      } else {
+	        collapsedGroups.push(num);
+	      }
+	      _this.setState({ collapsedGroups: collapsedGroups });
+	    };
+	
 	    _this.startTrackMouse = function () {
 	      if (_this.props.isDisabled) return;
 	      document.addEventListener('mousemove', _this.onMouseMove);
@@ -11793,7 +11806,7 @@
 	    return item[childrenProp].length;
 	  }).map(function (item) {
 	    childrenIds = childrenIds.concat(getAllNonEmptyNodesIds(item[childrenProp], childrenProp));
-	    return item.id;
+	    return item.number;
 	  });
 	
 	  return ids.concat(childrenIds);

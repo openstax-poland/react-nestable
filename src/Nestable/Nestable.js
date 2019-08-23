@@ -138,6 +138,17 @@ class Nestable extends Component {
     }
   };
 
+  toggleCollapseGroup = (num) => {
+    let collapsedGroups = this.state.collapsedGroups
+    const foundNum = collapsedGroups.findIndex(n => n === num)
+    if (foundNum >= 0) {
+      collapsedGroups.splice(foundNum, 1)
+    } else {
+      collapsedGroups.push(num)
+    }
+    this.setState({ collapsedGroups })
+  }
+
   // ––––––––––––––––––––––––––––––––––––
   // Methods
   // ––––––––––––––––––––––––––––––––––––
