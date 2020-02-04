@@ -87,8 +87,10 @@ var Nestable = function (_Component) {
       });
       if (foundNum >= 0) {
         collapsedGroups.splice(foundNum, 1);
+        _this.props.onToggleCollapse(num, false);
       } else {
         collapsedGroups.push(num);
+        _this.props.onToggleCollapse(num, true);
       }
       _this.setState({ collapsedGroups: collapsedGroups });
     };
@@ -251,6 +253,7 @@ var Nestable = function (_Component) {
       if (isGetter) {
         return newState;
       } else {
+        _this.props.onToggleCollapse(item.number, isCollapsed);
         _this.setState(newState);
       }
     };
@@ -268,7 +271,7 @@ var Nestable = function (_Component) {
       itemsOld: null, // snap copy in case of canceling drag
       dragItem: null,
       isDirty: false,
-      collapsedGroups: [],
+      collapsedGroups: props.collapsedGroups || [],
       realPathTo: []
     };
 
@@ -309,6 +312,10 @@ var Nestable = function (_Component) {
 
         if (this.props.collapsed !== nextProps.collapsed) {
           extra.collapsedGroups = [];
+        }
+
+        if (nextProps.collapsed) {
+          extra.collapsedGroups = nextProps.collapsedGroups;
         }
 
         this.setState(_extends({
@@ -694,6 +701,7 @@ Nestable.propTypes = {
   threshold: _propTypes2.default.number,
   maxDepth: _propTypes2.default.number,
   collapsed: _propTypes2.default.bool,
+  collapsedGroups: _propTypes2.default.arrayOf(_propTypes2.default.number),
   group: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string]),
   childrenProp: _propTypes2.default.string,
   className: _propTypes2.default.string,
@@ -701,13 +709,15 @@ Nestable.propTypes = {
   renderCollapseIcon: _propTypes2.default.func,
   handler: _propTypes2.default.node,
   onMove: _propTypes2.default.func,
-  onChange: _propTypes2.default.func
+  onChange: _propTypes2.default.func,
+  onToggleCollapse: _propTypes2.default.func
 };
 Nestable.defaultProps = {
   items: [],
   threshold: 30,
   maxDepth: 10,
   collapsed: false,
+  collapsedGroups: [],
   group: Math.random().toString(36).slice(2),
   childrenProp: 'children',
   renderItem: function renderItem(_ref2) {
@@ -717,6 +727,7 @@ Nestable.defaultProps = {
   onMove: function onMove() {
     return true;
   },
-  onChange: function onChange() {}
+  onChange: function onChange() {},
+  onToggleCollapse: function onToggleCollapse() {}
 };
 exports.default = Nestable;

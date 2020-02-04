@@ -25,7 +25,7 @@ class Nestable extends Component {
       itemsOld: null, // snap copy in case of canceling drag
       dragItem: null,
       isDirty: false,
-      collapsedGroups: [],
+      collapsedGroups: props.collapsedGroups || [],
       realPathTo: [],
     };
 
@@ -47,6 +47,7 @@ class Nestable extends Component {
     threshold: PropTypes.number,
     maxDepth: PropTypes.number,
     collapsed: PropTypes.bool,
+    collapsedGroups: PropTypes.arrayOf(PropTypes.number),
     group: PropTypes.oneOfType([
       PropTypes.number,
       PropTypes.string
@@ -57,13 +58,15 @@ class Nestable extends Component {
     renderCollapseIcon: PropTypes.func,
     handler: PropTypes.node,
     onMove: PropTypes.func,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    onToggleCollapse: PropTypes.func,
   };
   static defaultProps = {
     items: [],
     threshold: 30,
     maxDepth: 10,
     collapsed: false,
+    collapsedGroups: [],
     group: Math.random().toString(36).slice(2),
     childrenProp: 'children',
     renderItem: ({ item }) => item.toString(),
@@ -71,6 +74,9 @@ class Nestable extends Component {
       return true;
     },
     onChange: () => {
+    },
+    onToggleCollapse: () => {
+
     }
   };
 
@@ -94,6 +100,10 @@ class Nestable extends Component {
 
       if (this.props.collapsed !== nextProps.collapsed) {
         extra.collapsedGroups = [];
+      }
+
+      if (nextProps.collapsed) {
+        extra.collapsedGroups = nextProps.collapsedGroups;
       }
 
       this.setState({
@@ -143,8 +153,10 @@ class Nestable extends Component {
     const foundNum = collapsedGroups.findIndex(n => n === num)
     if (foundNum >= 0) {
       collapsedGroups.splice(foundNum, 1)
+      this.props.onToggleCollapse(num, false)
     } else {
       collapsedGroups.push(num)
+      this.props.onToggleCollapse(num, true)
     }
     this.setState({ collapsedGroups })
   }
@@ -553,6 +565,7 @@ class Nestable extends Component {
     if (isGetter) {
       return newState;
     } else {
+      this.props.onToggleCollapse(item.number, isCollapsed)
       this.setState(newState);
     }
   };
